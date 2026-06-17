@@ -1,0 +1,8 @@
+fastapi
+sqlalchemy
+pydantic
+alembic
+psycopg2-binary
+uvicorn[standard]
+python-dotenv
+pytest
