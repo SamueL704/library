@@ -1,19 +1,38 @@
 services:
+  # api:
+  #   build: .
+  #   container_name: biblioteca_api
+  #   ports:
+  #     - "8000:8000"
+  #   env_file:
+  #     - .env
+  #   environment:
+  #     DATABASE_URL: postgresql+psycopg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+  #   depends_on:
+  #     - db
+  #   volumes:
+  #     - .:/code
+  #  command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
   db:
     image: postgres:15
-    container_name: postgres
-    restart: always
-
+    container_name: biblioteca_db
     environment:
+      POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-
     ports:
-      - "5433:5432"
-
+      - "5432:5432"
     volumes:
-      - pg_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    container_name: biblioteca_adminer
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
 
 volumes:
-  pg_data:
+  postgres_data:
