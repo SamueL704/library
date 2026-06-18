@@ -435,187 +435,106 @@ Essa regra permite aplicar penalidades proporcionais ao atraso na devolução.
 
 ### RN-001 - Exemplar deve estar disponível
 
-Gatilho:
-
-Criação de empréstimo.
-
-Pré-condição:
-
-O exemplar deve possuir status `DISPONIVEL`.
-
-Ação:
-
-Criar empréstimo e alterar o status do exemplar para `EMPRESTADO`.
-
-Violação:
-
-```text
-HTTP 409 - EXEMPLAR_UNAVAILABLE
-```
+| **Campo**         | Descrição                                                |
+| ----------------- | -------------------------------------------------------- |
+| **Identificador** | RN-001                                                   |
+| **Nome**          | Exemplar deve estar disponível                           |
+| **Gatilho**       | Criação de empréstimo                                    |
+| **Pré-condição**  | Exemplar com status `DISPONIVEL`                         |
+| **Ação**          | Criar empréstimo e alterar exemplar para `EMPRESTADO`    |
+| **Violação**      | HTTP 409 - `EXEMPLAR_UNAVAILABLE`                        |
 
 ### RN-002 - Usuário com multa pendente não pode realizar empréstimos
 
-Gatilho:
-
-Criação de empréstimo.
-
-Pré-condição:
-
-Não deve existir multa com status `PENDENTE` para o usuário.
-
-Ação:
-
-Permitir empréstimo.
-
-Violação:
-
-```text
-HTTP 403 - USER_HAS_PENDING_FINE
-```
+| **Campo**         | Descrição                                                |
+| ----------------- | -------------------------------------------------------- |
+| **Identificador** | RN-002                                                   |
+| **Nome**          | Usuário com multa pendente não pode realizar empréstimos |
+| **Gatilho**       | Criação de empréstimo                                    |
+| **Pré-condição**  | Não existir multa com status `PENDENTE`                  |
+| **Ação**          | Permitir empréstimo                                      |
+| **Violação**      | HTTP 403 - `USER_HAS_PENDING_FINE`                       |
 
 ### RN-003 - Limite máximo de empréstimos ativos
 
-Gatilho:
-
-Criação de empréstimo.
-
-Pré-condição:
-
-O usuário deve possuir menos de 3 empréstimos ativos.
-
-Ação:
-
-Permitir empréstimo.
-
-Violação:
-
-```text
-HTTP 403 - MAX_ACTIVE_LOANS_REACHED
-```
+| **Campo**         | Descrição                                     |
+| ----------------- | --------------------------------------------- |
+| **Identificador** | RN-003                                        |
+| **Nome**          | Limite máximo de empréstimos ativos           |
+| **Gatilho**       | Criação de empréstimo                         |
+| **Pré-condição**  | Usuário possuir menos de 3 empréstimos ativos |
+| **Ação**          | Permitir empréstimo                           |
+| **Violação**      | HTTP 403 - `MAX_ACTIVE_LOANS_REACHED`         |
 
 ### RN-004 - Atraso gera multa
 
-Gatilho:
-
-Atualização de empréstimos pelo sistema.
-
-Pré-condição:
-
-A data atual deve ser maior que `devolucao_prevista`.
-
-Ação:
-
-Alterar o status do empréstimo para `ATRASADO` e gerar multa.
-
-Violação:
-
-```text
-Não aplicável diretamente ao usuário
-```
+| **Campo**         | Descrição                                    |
+| ----------------- | -------------------------------------------- |
+| **Identificador** | RN-004                                       |
+| **Nome**          | Atraso gera multa                            |
+| **Gatilho**       | Atualização de empréstimos pelo sistema      |
+| **Pré-condição**  | Data atual maior que `devolucao_prevista`    |
+| **Ação**          | Alterar status para `ATRASADO` e gerar multa |
+| **Violação**      | Não aplicável diretamente ao usuário         |
 
 ### RN-005 - Não é possível devolver empréstimo finalizado
 
-Gatilho:
-
-Registro de devolução.
-
-Pré-condição:
-
-O empréstimo não pode estar com status `FINALIZADO`.
-
-Ação:
-
-Registrar devolução e alterar status para `FINALIZADO`.
-
-Violação:
-
-```text
-HTTP 409 - LOAN_ALREADY_FINISHED
-```
+| **Campo**         | Descrição                                              |
+| ----------------- | ------------------------------------------------------ |
+| **Identificador** | RN-005                                                 |
+| **Nome**          | Não é possível devolver empréstimo finalizado          |
+| **Gatilho**       | Registro de devolução                                  |
+| **Pré-condição**  | Empréstimo não pode estar `FINALIZADO`                 |
+| **Ação**          | Registrar devolução e alterar status para `FINALIZADO` |
+| **Violação**      | HTTP 409 - `LOAN_ALREADY_FINISHED`                     |
 
 ### RN-006 - Multa paga não pode ser paga novamente
 
-Gatilho:
-
-Pagamento de multa.
-
-Pré-condição:
-
-A multa deve possuir status `PENDENTE`.
-
-Ação:
-
-Alterar status para `PAGA`.
-
-Violação:
-
-```text
-HTTP 409 - FINE_ALREADY_PAID
-```
+| **Campo**         | Descrição                              |
+| ----------------- | -------------------------------------- |
+| **Identificador** | RN-006                                 |
+| **Nome**          | Multa paga não pode ser paga novamente |
+| **Gatilho**       | Pagamento de multa                     |
+| **Pré-condição**  | Multa deve possuir status `PENDENTE`   |
+| **Ação**          | Alterar status para `PAGA`             |
+| **Violação**      | HTTP 409 - `FINE_ALREADY_PAID`         |
 
 ### RN-007 - Devolução libera exemplar
 
-Gatilho:
-
-Registro de devolução.
-
-Pré-condição:
-
-O empréstimo deve estar com status `ATIVO` ou `ATRASADO`.
-
-Ação:
-
-Alterar status do exemplar para `DISPONIVEL`.
-
-Violação:
-
-```text
-HTTP 409 - INVALID_LOAN_STATE
-```
+| **Campo**         | Descrição                                    |
+| ----------------- | -------------------------------------------- |
+| **Identificador** | RN-007                                       |
+| **Nome**          | Devolução libera exemplar                    |
+| **Gatilho**       | Registro de devolução                        |
+| **Pré-condição**  | Empréstimo com status `ATIVO` ou `ATRASADO`  |
+| **Ação**          | Alterar status do exemplar para `DISPONIVEL` |
+| **Violação**      | HTTP 409 - `INVALID_LOAN_STATE`              |
 
 ### RN-008 - Eventos relevantes devem ser registrados no histórico de empréstimos
 
-Gatilho:
-
-Criação, atraso, devolução ou pagamento de multa.
-
-Pré-condição:
-
-Existência de um empréstimo associado.
-
-Ação:
-
-Registrar evento correspondente em `LogEmprestimo`.
-
-Violação:
-
-```text
-HTTP 500 - LOAN_HISTORY_REGISTRATION_FAILED
-```
-
-Observação:
-
-Esta regra será implementada junto com a migration futura de auditoria.
+| **Campo**         | Descrição                                             |
+| ----------------- | ----------------------------------------------------- |
+| **Identificador** | RN-008                                                |
+| **Nome**          | Eventos relevantes devem ser registrados no histórico |
+| **Gatilho**       | Criação, atraso, devolução ou pagamento de multa      |
+| **Pré-condição**  | Existência de um empréstimo associado                 |
+| **Ação**          | Registrar evento em `LogEmprestimo`                   |
+| **Violação**      | HTTP 500 - `LOAN_HISTORY_REGISTRATION_FAILED`         |
 
 ### RN-009 - Valor da multa não pode ser negativo
 
-Gatilho:
+| **Campo**         | Descrição                            |
+| ----------------- | ------------------------------------ |
+| **Identificador** | RN-009                               |
+| **Nome**          | Valor da multa não pode ser negativo |
+| **Gatilho**       | Geração de multa                     |
+| **Pré-condição**  | Dias de atraso maior ou igual a zero |
+| **Ação**          | Calcular valor da multa              |
+| **Violação**      | HTTP 400 - `INVALID_FINE_VALUE`      |
 
-Geração de multa.
+Observação:
 
-Pré-condição:
-
-Dias de atraso maior ou igual a zero.
-
-Ação:
-
-Calcular valor.
-
-Violação:
-
-```text
-HTTP 400 - INVALID_FINE_VALUE
-```
+Esta regra será implementada junto com a migration futura de auditoria, responsável pela criação da tabela `log_emprestimos`.
 
 ## 8. Decisões de design relevantes
 
@@ -949,6 +868,7 @@ Campos planejados:
 A reserva será vinculada ao livro, e não ao exemplar, pois o usuário reserva a obra desejada. O exemplar específico será definido apenas quando houver uma cópia disponível.
 
 ## 17. Considerações finais
+
 
 Este projeto foi planejado para demonstrar domínio sobre modelagem, regras de negócio, estados de ciclo de vida, migrations, validações e consistência de dados.
 
