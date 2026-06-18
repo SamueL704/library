@@ -62,11 +62,8 @@ EXEMPLAR
     │ 1:N
     ▼
 EMPRESTIMO
-```
 
-Entidade planejada para migration futura:
 
-```text
 EMPRESTIMO
     │
     │ 1:N
@@ -193,17 +190,7 @@ library/
 ├── app/
 │   ├── main.py
 │   ├── core/
-│   │   ├── config.py
-│   │   ├── database.py
-│   │   ├── dependencies.py
-│   │   ├── exceptions.py
-│   │   └── handlers.py
 │   ├── models/
-│   │   ├── usuario.py
-│   │   ├── livro.py
-│   │   ├── exemplar.py
-│   │   ├── emprestimo.py
-│   │   └── multa.py
 │   ├── schemas/
 │   ├── services/
 │   ├── repositories/
@@ -220,7 +207,6 @@ library/
 └── README.md
 ```
 
-A tabela `log_emprestimos` será adicionada posteriormente em uma migration própria, como evolução de auditoria do sistema.
 
 ## 5. Modelagem de entidades
 
